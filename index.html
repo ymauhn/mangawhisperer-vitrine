@@ -3,87 +3,468 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MangaWhisperer: quadrinhos em audiodrama</title>
-<meta name="description" content="Do PDF de um quadrinho a um audiodrama em português do Brasil, para quem é cego ou tem baixa visão.">
+<title>MangaWhisperer: mangá em audiodrama</title>
+<meta name="description" content="Do PDF de um mangá a um audiodrama em português do Brasil, para quem é cego ou tem baixa visão. Amostra: Berserk, volume 1 (trecho).">
+<link rel="icon" href="vitrine/logo.svg" type="image/svg+xml">
 <style>
-  /* The player's tokens (mangawhisperer/player/index.html): same contrast
-     (AA in both schemes), same focus ring, same 20 px floor for text. */
-  :root { color-scheme: light dark; --bg: #ffffff; --fg: #1a1a1a; --muted: #474747; --line: #767676; --focus: #0b57d0; }
+  /* A manga page you listen to: sumi ink on paper stock, one hanko-red accent,
+     every section a panel and every heading a speech balloon. All art in
+     vitrine/ is black ink (logo from Recraft, speed lines, splash and
+     screentone from GPT Image 2, via Higgsfield); the dark scheme inverts it.
+     Every text pair is AA or better in both schemes; text never sits on art
+     stronger than a 30 % stain. The 20 px floor, the focus ring and the 320 px
+     reflow are the player's (mangawhisperer/player). This block is the static
+     page, the one reduced motion gets; the motion lives at the end. */
+  @font-face { font-family: "Dela Gothic One"; font-display: swap;
+               src: url("vitrine/dela-gothic-one-latin.woff2") format("woff2"); } /* SIL OFL 1.1, vitrine/OFL.txt */
+  :root {
+    color-scheme: light dark;
+    --bg: #f4efe4; --fg: #121212; --muted: #3b3833; --accent: #b0231a;
+    --track: #d6cebe; --line: #5c5850;
+    --display: "Dela Gothic One", "Arial Black", system-ui, sans-serif;
+  }
   @media (prefers-color-scheme: dark) {
-    :root { --bg: #121212; --fg: #f1f1f1; --muted: #c4c4c4; --line: #8f8f8f; --focus: #8ab4f8; }
+    :root { --bg: #0f0f11; --fg: #f1ece2; --muted: #c8c2b6; --accent: #ff7a66; --track: #34332f; --line: #8d887d; }
+    .arte, .quadro.tom::before, .p1::after { filter: invert(1); }
+    .linhas { opacity: 0.6; }
+    .respingo { opacity: 0.85; }
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--fg); font: 1.25rem/1.5 system-ui, sans-serif; }
-  main, footer { max-width: 42rem; margin: 0 auto; padding: 1rem; }
-  h1 { font-size: clamp(2rem, 9vw, 3rem); line-height: 1.1; letter-spacing: -0.02em; margin: 2rem 0 0.75rem; overflow-wrap: anywhere; }
-  h2 { font-size: 1.5rem; line-height: 1.25; margin: 2.75rem 0 0.75rem; }
+  html { scrollbar-color: var(--fg) var(--bg); }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 1.25rem/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main, footer { max-width: 48rem; margin: 0 auto; padding: 0 1rem; }
+  main { overflow-x: clip; padding-top: 1rem; padding-bottom: 1rem; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: 1.2; text-wrap: balance; }
+  h3 { font-size: clamp(1.35rem, 4.5vw, 1.6rem); margin: 2.75rem 0 0.75rem; }
+  /* An ink stroke under each sub-heading, the accent's only non-link use. */
+  .quadro h3::after { content: ""; display: block; width: 3.5rem; height: 5px; margin-top: 0.4rem; background: var(--accent); transform-origin: left; }
   p, ul, ol { margin: 0 0 1rem; }
   li + li { margin-top: 0.5rem; }
-  .lead { font-size: 1.5rem; line-height: 1.4; }
-  a { color: var(--focus); text-underline-offset: 0.2em; }
-  :focus-visible { outline: 4px solid var(--focus); outline-offset: 3px; }
-  ::selection { background: var(--focus); color: var(--bg); }
-  .acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin: 2rem 0; }
-  .ouvir { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 2.75rem; padding: 0.75rem 1.25rem;
-           background: var(--fg); color: var(--bg); border-radius: 0.5rem; font-weight: 700; text-decoration: none; }
-  .ouvir:hover { text-decoration: underline; }
-  .ouvir svg { flex: none; }
-  kbd { font: inherit; font-size: 0.9em; padding: 0 0.3em; border: 2px solid var(--line); border-radius: 0.3em; white-space: nowrap; }
-  footer { margin-top: 3rem; border-top: 2px solid var(--line); color: var(--muted); }
-  footer h2 { margin-top: 1.5rem; color: var(--fg); }
+  a { color: var(--accent); text-underline-offset: 0.2em; text-decoration-thickness: 0.08em; }
+  a:hover { text-decoration-thickness: 0.15em; }
+  :focus-visible { outline: 4px solid var(--accent); outline-offset: 4px; }
+  ::selection { background: var(--fg); color: var(--bg); }
+  strong { font-weight: 800; }
+  kbd { font: inherit; font-size: 0.9em; padding: 0 0.3em; border: 2px solid var(--fg); border-bottom-width: 4px; border-radius: 0.3em; white-space: nowrap; }
+  .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .arte { display: block; pointer-events: none; user-select: none; }
+  .trilha { display: none; }
+
+  /* The cover: hand-inked focus lines rush toward a caption panel with the
+     mark, the name and the one loud thing on the page, the call to listen.
+     On wide screens the panel moves left and the big balloon talks on the right. */
+  .capa { position: relative; overflow: clip; padding: 0 1rem clamp(3rem, 10vw, 7rem); border-bottom: 6px solid var(--fg); }
+  .palco { position: absolute; inset: 0; overflow: clip; }
+  .linhas { position: absolute; inset: -4%; width: 108%; height: 108%; object-fit: cover; }
+  .grito { display: none; position: absolute; right: 4vw; bottom: 6%; width: clamp(8.5rem, 28vw, 24rem); aspect-ratio: 760 / 740; }
+  .grito img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .onda.esq { transform-origin: 36% 49.4%; }
+  .onda.dir { transform-origin: 69.3% 49.5%; }
+  .capa-quadro { position: relative; max-width: 44rem; margin: clamp(2.5rem, 9vw, 6rem) auto 0; background: var(--bg);
+                 border: 5px solid var(--fg); padding: clamp(1.25rem, 5vw, 2.75rem); }
+  @media (min-width: 72rem) {
+    .grito { display: block; }
+    .capa-quadro { margin-left: clamp(1rem, 6vw, 6rem); }
+  }
+  .assinatura { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1.25rem; margin-bottom: 1rem; }
+  .marca { width: clamp(4.5rem, 16vw, 7.5rem); height: auto; flex: none; }
+  h1 { font-size: clamp(2.1rem, 10.5vw, 5rem); letter-spacing: -0.01em; line-height: 1; margin: 0; overflow-wrap: anywhere; }
+  .lead { font-size: clamp(1.35rem, 4.5vw, 1.7rem); line-height: 1.4; max-width: 34rem; }
+  .balao { position: relative; display: inline-flex; align-items: center; gap: clamp(0.5rem, 2vw, 0.85rem); margin: 1.25rem 0 2.25rem;
+           padding: 1.1rem clamp(1rem, 4vw, 1.75rem); min-height: 3rem; background: var(--fg); color: var(--bg);
+           border-radius: 2.75rem / 2.25rem; font-weight: 800; font-size: clamp(1.3rem, 4.5vw, 1.6rem); line-height: 1.3; text-decoration: none; }
+  .balao::after { content: ""; position: absolute; left: 2.5rem; bottom: -1.05rem; border: 1.1rem solid transparent;
+                  border-top-color: var(--fg); border-bottom: 0; border-left-width: 0.3rem; transform: skewX(-18deg); }
+  .balao:hover { text-decoration: underline; text-decoration-thickness: 0.1em; }
+  .balao svg { flex: none; width: 1.4em; height: 1.4em; }
+  .baixar { margin: 0; }
+  p.versoes-capa { margin: 1.25rem 0 0.5rem; }
+  ul.versoes-capa { list-style: none; padding: 0; margin: 0; }
+  ul.versoes-capa li + li { margin-top: 0.75rem; }
+  ul.versoes-capa a { font-weight: 800; }
+
+  /* Sections are panels; their headings are balloons sitting on the frame.
+     Between panels, a strip of speed lines: the gutter a page turns across. */
+  .quadro { position: relative; border: 4px solid var(--fg); padding: 0 clamp(1rem, 4vw, 2.5rem) 1.5rem; margin: 4.5rem 0 0; background: var(--bg); isolation: isolate; }
+  .quadro h2 { position: relative; display: inline-block; max-width: 100%; margin: -1.6rem 0 1.25rem; padding: 0.4rem 1.1rem 0.5rem;
+               font-size: clamp(1.55rem, 6.5vw, 2.4rem); background: var(--bg); border: 4px solid var(--fg); border-radius: 2rem / 1.6rem; }
+  .quadro h2::before, .quadro h2::after { content: ""; position: absolute; left: 1.75rem; border-style: solid; border-color: transparent; border-bottom: 0; }
+  .quadro h2::before { bottom: -1.05rem; border-width: 1.05rem 0.25rem 0 1rem; border-top-color: var(--fg); }
+  .quadro h2::after { bottom: -0.6rem; left: 2.05rem; border-width: 0.65rem 0.1rem 0 0.6rem; border-top-color: var(--bg); }
+  .quadro > :last-child { margin-bottom: 0; }
+  /* Screentone in a corner of a panel, painted behind its text (the panel is isolated), 22 % ink at most. */
+  .quadro.tom::before { content: ""; position: absolute; z-index: -1; right: -4px; bottom: -4px; width: clamp(7rem, 26vw, 12rem); aspect-ratio: 1;
+                        background: url("vitrine/reticula.webp") right bottom / contain no-repeat; opacity: 0.22; pointer-events: none; }
+  .virada { position: relative; height: 3.5rem; margin-top: 2.25rem; overflow: clip; }
+  .virada + .quadro { margin-top: 2.5rem; }
+  .virada::before { content: ""; position: absolute; inset: 0.35rem 14%;
+                    background: repeating-linear-gradient(to bottom, var(--fg) 0 3px, transparent 3px 8px, var(--fg) 8px 9px, transparent 9px 15px, var(--fg) 15px 17px, transparent 17px 24px);
+                    -webkit-mask: linear-gradient(to left, transparent, #000 30%, #000 65%, transparent); mask: linear-gradient(to left, transparent, #000 30%, #000 65%, transparent); }
+  /* The turning page's edge: an ink bar at the right end of a full-width layer, so a -100 % shift crosses the gutter. */
+  .virada::after { content: none; position: absolute; inset: 0 0 0 1.1rem; background: linear-gradient(to left, var(--fg) 1.1rem, transparent 1.1rem); }
+  .respingo { width: min(100%, 34rem); height: auto; margin: 3rem auto -1.5rem; }
+  .respingo.virado { scale: -1 1; }
+
+  /* A caption box, the way a manga frames a narrator's aside. */
+  .aviso { border: 3px solid var(--fg); padding: 0.75rem 1rem; background: var(--bg); position: relative; }
+
+  /* The pipeline as a manga page: six panels read right to left, top to
+     bottom, the scriptwriter's panel in solid ink. Decorative for AT (role=img);
+     the list under it says the same in words. */
+  .pagina { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.6rem; margin: 0 0 1.5rem;
+            grid-template-areas: "p2 p2 p1 p1 p1" "p3 p3 p3 p3 p3" "p5 p5 p5 p4 p4" "p6 p6 p6 p6 p6"; }
+  .painel { position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: space-between; gap: 0.4rem; min-height: 7rem;
+            padding: 0.6rem 0.8rem 0.7rem; border: 3px solid var(--fg); background: var(--bg); font-weight: 800; line-height: 1.25; hyphens: auto; }
+  .painel .n { align-self: flex-end; font: 400 2.4rem/1 var(--display); }
+  .p1 { grid-area: p1; } .p2 { grid-area: p2; } .p3 { grid-area: p3; } .p4 { grid-area: p4; } .p5 { grid-area: p5; } .p6 { grid-area: p6; }
+  .painel.forte { background: var(--fg); color: var(--bg); }
+  .p1::after { content: ""; position: absolute; z-index: -1; left: 0; top: 0; width: 4.5rem; aspect-ratio: 1; opacity: 0.3;
+               background: url("vitrine/reticula.webp") left top / contain no-repeat; transform: scaleX(-1); }
+  @media (max-width: 30rem) {
+    .pagina { grid-template-columns: 1fr 1fr; grid-template-areas: "p2 p1" "p3 p3" "p5 p4" "p6 p6"; }
+    .painel { padding: 0.5rem; }
+  }
+
+  /* Verdicts carry a word and a glyph, never colour alone. */
+  .barras-spec { list-style: none; padding: 0; }
+  .barras-spec li { display: grid; grid-template-columns: 1fr auto; gap: 0 1rem; padding: 0.6rem 0; border-bottom: 2px solid var(--track); margin: 0; }
+  .barras-spec .veredito { font-weight: 800; text-align: right; }
+  .barras-spec .detalhe { grid-column: 1 / -1; color: var(--muted); font-size: 1.25rem; }
+  .falha .veredito { color: var(--accent); }
+  .veredito svg { vertical-align: -0.1em; margin-right: 0.3rem; }
+
+  /* One series, one ink, a dashed line at the 80 % bar, over a faint ink stain.
+     Values are printed, never inferred. */
+  .mancha { position: relative; isolation: isolate; margin: 0 0 1rem; }
+  .respingo-fundo { position: absolute; left: -6%; top: -18%; width: 112%; height: 136%; object-fit: contain; opacity: 0.16; z-index: -1; }
+  .grafico { list-style: none; padding: 0; margin: 0; }
+  .grafico li { margin: 0 0 1rem; }
+  .grafico .rotulo { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 1rem; }
+  .trilho { display: block; position: relative; margin-top: 0.25rem; height: 1.25rem; background: var(--track); }
+  .trilho > span { position: absolute; inset: 0 auto 0 0; background: var(--fg); transform-origin: left; }
+  .trilho::after { content: ""; position: absolute; top: -0.35rem; bottom: -0.35rem; left: 80%; border-left: 3px dashed var(--accent); transform-origin: top; }
+
+  .rolagem { overflow-x: auto; margin: 0 0 1rem; scrollbar-color: var(--line) transparent; }
+  table { border-collapse: collapse; font-variant-numeric: tabular-nums; min-width: 100%; }
+  caption { text-align: left; font-weight: 800; padding-bottom: 0.5rem; }
+  th, td { text-align: left; padding: 0.5rem 1rem 0.5rem 0; border-bottom: 2px solid var(--track); vertical-align: top; }
+  thead th { border-bottom: 4px solid var(--fg); }
+  td { white-space: nowrap; }
+
+  footer { margin-top: 4rem; padding-top: 1.5rem; padding-bottom: 2rem; border-top: 6px solid var(--fg); color: var(--muted); overflow-wrap: anywhere; }
+  footer .marca { width: 3.5rem; margin-bottom: 0.5rem; }
+  footer h2 { font-size: 1.75rem; margin: 0.5rem 0 1rem; color: var(--fg); }
+
+  /* Motion, only for whoever has not asked for less, and only transform and
+     opacity. Scroll drives it (scroll and view timelines); browsers without
+     them get the section beats from the IntersectionObserver below. Text only
+     ever moves while it is in the bottom 30 % of the screen, never fades and
+     is never clipped; only ink art fades. Nothing pinned holds a control.
+     Beats, top to bottom: the cover pins while its speed lines converge and
+     the big balloon talks; a small balloon crosses the top rail right to left
+     with the reading; panels slide in and their balloons pop; speed lines
+     whoosh across each gutter; the pipeline's panels snap into a manga page
+     in reading order; verdicts are stamped; an ink stain bursts behind the
+     chart as its bars shoot out; list items and table rows slide in. */
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+    @keyframes chega { from { transform: scale(0.6) rotate(-4deg); } }
+    .balao { animation: chega 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; }
+
+    @keyframes converge { from { transform: scale(1.45) rotate(-5deg); } to { transform: scale(0.9) rotate(2deg); } }
+    @keyframes fala { 0% { transform: scale(0.55) rotate(-10deg); } 12% { transform: scale(1.08) rotate(3deg); } 22% { transform: scale(0.95) rotate(-2deg); }
+                      34% { transform: scale(1.06) rotate(2deg); } 46% { transform: scale(0.97) rotate(-2deg); } 58% { transform: scale(1.07) rotate(3deg); }
+                      70% { transform: scale(0.97) rotate(-1deg); } 84% { transform: scale(1.04) rotate(1deg); } 100% { transform: none; } }
+    @keyframes onda-a { 0% { transform: scaleY(0.3); } 8% { transform: scaleY(1.35); } 16% { transform: scaleY(0.45); } 26% { transform: scaleY(1.2); }
+                        36% { transform: scaleY(0.35); } 46% { transform: scaleY(1.4); } 56% { transform: scaleY(0.5); } 66% { transform: scaleY(1.25); }
+                        76% { transform: scaleY(0.4); } 88% { transform: scaleY(1.3); } 100% { transform: none; } }
+    @keyframes onda-b { 0% { transform: scaleY(1.2); } 10% { transform: scaleY(0.35); } 20% { transform: scaleY(1.4); } 30% { transform: scaleY(0.5); }
+                        42% { transform: scaleY(1.25); } 52% { transform: scaleY(0.3); } 62% { transform: scaleY(1.35); } 72% { transform: scaleY(0.45); }
+                        84% { transform: scaleY(1.2); } 94% { transform: scaleY(0.6); } 100% { transform: none; } }
+    @keyframes le { 0% { transform: none; } 20% { transform: translateX(calc(0.2 * (2.9rem - 100cqw))) rotate(-10deg); }
+                    40% { transform: translateX(calc(0.4 * (2.9rem - 100cqw))) rotate(8deg); } 60% { transform: translateX(calc(0.6 * (2.9rem - 100cqw))) rotate(-10deg); }
+                    80% { transform: translateX(calc(0.8 * (2.9rem - 100cqw))) rotate(8deg); } 100% { transform: translateX(calc(2.9rem - 100cqw)); } }
+    @keyframes entra { from { transform: translateX(-1.5rem); } }
+    @keyframes entra-dir { from { transform: translateX(1.5rem); } }
+    @keyframes estoura { 0% { transform: scale(0.3) rotate(-8deg); } 70% { transform: scale(1.08) rotate(1deg); } 100% { transform: none; } }
+    @keyframes varre { from { transform: translateX(100%) skewX(-25deg); } to { transform: translateX(-100%) skewX(-25deg); } }
+    @keyframes vira { from { transform: translateX(1.2rem); } 50% { transform: translateX(-50%) skewX(-30deg); } to { transform: translateX(calc(-100% - 1.2rem)); } }
+    @keyframes encaixa-dir { from { transform: translate(55%, 25%) rotate(9deg) scale(0.8); } 80% { transform: rotate(-1deg) scale(1.03); } to { transform: none; } }
+    @keyframes encaixa-esq { from { transform: translate(-45%, 35%) rotate(-10deg) scale(0.8); } 80% { transform: rotate(1deg) scale(1.03); } to { transform: none; } }
+    @keyframes encaixa-baixo { from { transform: translateY(70%) rotate(-3deg) scale(0.85); } 80% { transform: scale(1.02); } to { transform: none; } }
+    @keyframes traca { from { transform: scaleX(0); } }
+    @keyframes carimba { from { transform: scale(1.9) rotate(-35deg); opacity: 0; } 55% { transform: scale(0.85) rotate(6deg); opacity: 1; } to { transform: none; opacity: 1; } }
+    @keyframes explode { from { transform: scale(0.1) rotate(-40deg); opacity: 0; } 55% { transform: scale(1.15) rotate(5deg); opacity: 0.3; } to { transform: none; opacity: 0.16; } }
+    @keyframes cresce { from { transform: scaleX(0); } }
+    @keyframes risca { from { transform: scaleY(0); } }
+    @keyframes salpica { from { transform: scale(0.15) rotate(-30deg); } 60% { transform: scale(1.1) rotate(4deg); } to { transform: none; } }
+    @keyframes desliza { from { transform: translateX(1rem); } }
+    @keyframes desliza-esq { from { transform: translateX(-1rem); } }
+    @keyframes assenta { from { transform: translateY(1rem); } }
+    @keyframes inclina { from { transform: translateY(1rem) rotate(-2.5deg); } }
+    @keyframes deriva { from { transform: translateY(3rem); } to { transform: translateY(-1rem); } }
+
+    @supports (animation-timeline: view()) {
+      html { scroll-padding-top: 3rem; } /* the rail never hides the focused control */
+      /* Reading marker: a small balloon rides the top rail right to left, the way a manga page reads. */
+      .trilha { display: block; position: fixed; inset: 0 0 auto; height: 2.25rem; z-index: 3; pointer-events: none; container-type: inline-size;
+                background: radial-gradient(var(--line) 1.5px, transparent 2px) center / 14px 14px repeat-x, var(--bg); border-bottom: 3px solid var(--fg); }
+      .trilha img { position: absolute; top: 0.2rem; right: 0.6rem; width: 1.7rem; height: auto; animation: le linear both; animation-timeline: scroll(root); }
+
+      /* Pinned cover: the stage sticks while the caption scrolls away, 70 % of a screen more. */
+      .capa { view-timeline: --capa; padding-bottom: 70svh; }
+      .capa-quadro { margin-top: clamp(4rem, 11vw, 7rem); }
+      .palco { position: sticky; inset: 0 auto auto; height: 100svh; margin: 0 -1rem -100svh; }
+      .grito { display: block; animation: fala linear both; animation-timeline: --capa; animation-range: contain 0% exit 50%; }
+      .linhas { animation: converge linear both; animation-timeline: --capa; animation-range: contain 0% exit 40%; }
+      .onda.esq { animation: onda-a linear both; animation-timeline: --capa; animation-range: contain 0% exit 50%; }
+      .onda.dir { animation: onda-b linear both; animation-timeline: --capa; animation-range: contain 0% exit 50%; }
+
+      .quadro { view-timeline: --q; animation: entra linear both; animation-timeline: --q; animation-range: entry 0% entry 20%; }
+      .quadro:nth-of-type(even) { animation-name: entra-dir; }
+      .quadro h2 { animation: estoura linear both; animation-timeline: --q; animation-range: entry 3% entry 25%; }
+      .quadro h3 { view-timeline: --h3; }
+      .quadro h3::after { animation: traca linear both; animation-timeline: --h3; animation-range: entry 0% entry 100%; }
+      /* still once a quarter of a screen in, however tall: a long paragraph at 320 px moved well up the screen with cover % */
+      .quadro > ul:not(.barras-spec) > li, .quadro > ol > li { animation: desliza linear both; animation-timeline: view(); animation-range: entry 0% entry 25svh; }
+      .quadro > p { animation: assenta linear both; animation-timeline: view(); animation-range: entry 0% entry 25svh; }
+      .quadro > p.aviso { animation-name: inclina; }
+      .quadro.tom::before { animation: deriva linear both; animation-timeline: --q; animation-range: cover 0% cover 100%; }
+      footer .marca { animation: salpica linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+
+      .virada { view-timeline: --virada; }
+      .virada::before { animation: varre linear both; animation-timeline: --virada; animation-range: cover 20% cover 80%; }
+      .virada::after { content: ""; animation: vira linear both; animation-timeline: --virada; animation-range: cover 15% cover 70%; }
+      .respingo { animation: salpica linear both; animation-timeline: view(); animation-range: entry 0% cover 40%; }
+
+      .painel { animation: encaixa-dir linear both; animation-timeline: view(); animation-range: cover 0% cover 17%; }
+      .p2, .p5 { animation-name: encaixa-esq; animation-range: cover 6% cover 23%; }
+      .p3, .p6 { animation-name: encaixa-baixo; animation-range: cover 0% cover 23%; }
+
+      .barras-spec li { view-timeline: --linha; }
+      .veredito svg { animation: carimba linear both; animation-timeline: --linha; animation-range: cover 2% cover 24%; }
+      .mancha { view-timeline: --mancha; }
+      .respingo-fundo { animation: explode linear both; animation-timeline: --mancha; animation-range: entry 0% cover 35%; }
+      .trilho { view-timeline: --barra; }
+      .trilho > span { animation: cresce linear both; animation-timeline: --barra; animation-range: entry 0% cover 15%; }
+      .trilho::after { animation: risca linear both; animation-timeline: --barra; animation-range: entry 0% entry 100%; }
+      .rolagem { view-timeline: --tabela; }
+      .rolagem tbody tr { animation: desliza-esq linear both; animation-timeline: --tabela; }
+      .rolagem tbody tr:nth-child(1) { animation-range: entry 0% entry 40%; }
+      .rolagem tbody tr:nth-child(2) { animation-range: entry 10% entry 50%; }
+      .rolagem tbody tr:nth-child(3) { animation-range: entry 20% entry 60%; }
+      .rolagem tbody tr:nth-child(4) { animation-range: entry 30% entry 70%; }
+      .rolagem tbody tr:nth-child(5) { animation-range: entry 40% entry 80%; }
+    }
+
+    /* Fallback: the script sets .io only where view() is missing; .visto lands at 85 % of the screen. */
+    .io .quadro, .io .quadro h2, .io .painel, .io .trilho > span, .io .respingo, .io .respingo-fundo { transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+    .io .quadro:not(.visto) { transform: translateX(-1.5rem); }
+    .io .quadro:nth-of-type(even):not(.visto) { transform: translateX(1.5rem); }
+    .io .quadro:not(.visto) h2 { transform: scale(0.3) rotate(-8deg); }
+    .io .pagina:not(.visto) .painel { transform: translateY(2rem) rotate(-3deg); }
+    .io .p2 { transition-delay: 0.1s; } .io .p3 { transition-delay: 0.2s; } .io .p4 { transition-delay: 0.3s; } .io .p5 { transition-delay: 0.4s; } .io .p6 { transition-delay: 0.5s; }
+    .io .mancha:not(.visto) .trilho > span { transform: scaleX(0); }
+    .io .mancha:not(.visto) .respingo-fundo { transform: scale(0.1); }
+    .io .respingo:not(.visto) { transform: scale(0.15) rotate(-30deg); }
+  }
 </style>
+<script>
+  // Scroll-reveal fallback for browsers without view timelines. Nothing is
+  // hidden before this runs, and it never runs under reduced motion. Margin,
+  // not a ratio: a section eight screens tall never shows 12 % of itself.
+  if (!CSS.supports('animation-timeline: view()') && 'IntersectionObserver' in window &&
+      matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    document.documentElement.classList.add('io');
+    addEventListener('DOMContentLoaded', function () {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('visto'); io.unobserve(e.target); } });
+      }, { threshold: 0, rootMargin: '0px 0px -15% 0px' });
+      document.querySelectorAll('.quadro, .pagina, .mancha, .respingo').forEach(function (el) { io.observe(el); });
+    });
+  }
+</script>
 </head>
 <body>
+<div class="trilha" aria-hidden="true"><img class="arte" src="vitrine/logo.svg" alt="" width="28" height="27"></div>
+<header class="capa">
+<div class="palco" aria-hidden="true">
+<img class="arte linhas" src="vitrine/linhas-de-velocidade.webp" alt="" width="1200" height="671">
+<div class="grito arte">
+<img src="vitrine/logo-balao.svg" alt="" width="380" height="370">
+<img class="onda esq" src="vitrine/onda-esq.svg" alt="" width="380" height="370">
+<img class="onda dir" src="vitrine/onda-dir.svg" alt="" width="380" height="370">
+</div>
+</div>
+<div class="capa-quadro">
+<div class="assinatura">
+<img class="arte marca" src="vitrine/logo.svg" alt="" width="120" height="117">
+<h1>Manga<wbr>Whisperer</h1>
+</div>
+<p class="lead">Mangá em PDF vira audiodrama em português do Brasil, para quem é cego ou tem baixa visão.</p>
+<a class="balao" href="amostra/index.html"><svg aria-hidden="true" focusable="false" viewBox="0 0 18 18"><path d="M4 2.5v13l11-6.5z" fill="currentColor"/></svg>Ouvir a amostra: Berserk, volume 1 (trecho)</a>
+<p class="baixar"><a href="amostra/berserk_vol_01.mp3" download>Baixar o áudio da amostra (MP3, 4,5 MB)</a></p>
+<p class="versoes-capa">O link acima toca a versão Opus (API Claude). As outras têm as mesmas páginas e o mesmo sintetizador de voz; muda o modelo que descreve a cena e escreve o roteiro:</p>
+<ul class="versoes-capa"><li><a href="amostra/index.html">Opus (API Claude)</a>: O Claude Opus 4.8, pela API da Anthropic, descreve a cena, escreve o roteiro, revisa e escreve a narração. ≈ US$ 0,12 por página. Acerto de quem fala: 85,7 % pelo rótulo do roteiro, 76,2 % pela voz que se ouve, numa execução (IC 95 % do rótulo: 74,0–95,0 %).</li><li><a href="amostra-hibrido/index.html">Híbrido (cena pelo Opus, roteiro local)</a>: O Claude Opus 4.8 descreve a cena; o Qwen3-VL-8B, no computador, escreve o roteiro, revisa e escreve a narração. ≈ US$ 0,02 por página. Acerto de quem fala: 82,5 % pelo rótulo do roteiro, 74,6 % pela voz que se ouve, numa execução (IC 95 % do rótulo: 68,6–92,9 %).</li><li><a href="amostra-local/index.html">Local (Qwen3-VL-8B, sem custo)</a>: O Qwen3-VL-8B, no computador, descreve a cena, escreve o roteiro, revisa e escreve a narração. Sem conta paga. US$ 0 por página. Acerto de quem fala: 52,4 % pelo rótulo do roteiro, 52,4 % pela voz que se ouve, numa execução (IC 95 % do rótulo: 32,7–68,7 %).</li></ul>
+<p class="versoes-capa">Acertar o elenco e dar um rótulo por página aos figurantes, sem saber quem fala, já faria 85,7 % pelo rótulo (e 67,9 % dos figurantes, o acaso). Uma execução de cada não dá veredito: uma execução anterior do Opus, com outro pipeline (vozes XTTS, o OCR antigo e trechos da narração de referência no prompt), acertou 76,2 %, e a diferença entre versões vizinhas ainda cabe no ruído.</p>
+</div>
+</header>
 <main>
-<h1>MangaWhisperer</h1>
-<p class="lead">Do PDF de um quadrinho a um audiodrama em português do Brasil, para quem é cego ou tem baixa visão.</p>
-<p>Cada personagem tem a sua voz e diz as falas como estão nos balões. Um narrador conta o que só existe no desenho, sem inventar e sem repetir.</p>
-<p class="acoes">
-<a class="ouvir" href="amostra/index.html"><svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 18 18"><path d="M4 2.5v13l11-6.5z" fill="currentColor"/></svg>Ouvir a amostra: Pepper&amp;Carrot, episódio 6: O Torneio de Poções</a>
-<a href="amostra/peppercarrot_ep06_pt.mp3" download>Baixar o episódio (MP3, 3,2 MB)</a>
-</p>
 
-<h2>O que é</h2>
-<p>O MangaWhisperer lê um quadrinho em PDF e o transforma num audiodrama. Tudo roda no computador de quem usa, sem chave de API:</p>
-<ol>
-<li>encontra os quadros e os balões de cada página e lê o texto;</li>
-<li>decide quem diz cada fala e descreve o que só aparece no desenho;</li>
-<li>dá uma voz a cada personagem e outra à narração;</li>
-<li>mistura vozes, efeitos sonoros e trilha, cada um com o seu volume.</li>
-</ol>
-<p>A amostra é o episódio 6 de Pepper&amp;Carrot, quadrinho livre de David Revoy, na tradução brasileira.</p>
+<div class="virada" aria-hidden="true"></div>
+<section class="quadro tom" aria-labelledby="o-que-e">
+<h2 id="o-que-e">O que é e para quem</h2>
+<p>O MangaWhisperer lê as páginas de um mangá e monta um audiodrama. Cada personagem tem a sua voz e diz as falas como estão nos balões. Um narrador busca contar só o que existe no desenho, sem inventar nem repetir.</p>
+<p>É feito para quem não consegue ler o quadrinho com os olhos: pessoas cegas ou com baixa visão, que hoje dependem de alguém para descrever cada página.</p>
+<p>A amostra é um trecho de Berserk, volume 1, de Kentaro Miura. Uso não comercial, para pesquisa e portfólio de acessibilidade.</p>
+</section>
 
-<h2>Como ouvir a amostra pelo teclado</h2>
+<div class="virada" aria-hidden="true"></div>
+<section class="quadro" aria-labelledby="teclado">
+<h2 id="teclado">Como ouvir pelo teclado</h2>
 <ul>
 <li><kbd>Tab</kbd> e <kbd>Shift</kbd>+<kbd>Tab</kbd> passam de um controle a outro; <kbd>Enter</kbd> ou <kbd>Espaço</kbd> aciona o botão em foco.</li>
 <li>Reproduzir vira Pausar enquanto toca.</li>
 <li>Próxima fala e Próxima página pulam para a frente. Fala anterior, com a fala já andando, volta ao começo dela: é assim que se repete o que acabou de ouvir.</li>
 <li>Onde estou? diz a página, o quadro, quem fala e o tempo.</li>
 <li>Em Posição, as setas avançam e voltam; <kbd>Page Up</kbd> e <kbd>Page Down</kbd> dão saltos maiores.</li>
-<li>Em Volumes, voz, música e efeitos têm controles separados; as setas mudam de 5 em 5%.</li>
+<li>Em Efeitos sonoros, as setas escolhem Nenhum, Poucos, Médio ou Muitos, e cada opção diz quantos efeitos toca por minuto. A troca não perde o ponto.</li>
+<li>Em Volumes, voz, efeitos e ambiente têm controles separados; as setas mudam de 5 em 5%. Os volumes e a quantidade de efeitos valem para as três versões da amostra.</li>
 <li>Ao voltar à página, o player retoma de onde você parou, neste navegador.</li>
 </ul>
+</section>
 
-<h2>Limites</h2>
-<ul>
-<li>O pipeline completo roda só no computador de quem usa, mais rápido com placa de vídeo. Esta página não converte quadrinhos: ela toca uma amostra pronta.</li>
-<li>Enviar um PDF e ouvir no navegador ainda não existe. O caminho em estudo é um modo experimental <q>só falas</q>, que leria os balões com a voz do sistema, sem descrever as imagens nem dizer quem fala.</li>
-<li>A narração sai de modelos de IA e pode errar quem fala ou descrever mal um detalhe.</li>
-<li>No iPhone e no iPad, os volumes separados não têm efeito: o Safari do iOS ignora o volume de cada áudio.</li>
-<li>O player ainda não passou por uma sessão com pessoas cegas. Os testes automáticos cobrem o uso só pelo teclado e as regras de acessibilidade do axe.</li>
+<div class="virada" aria-hidden="true"></div>
+<section class="quadro" aria-labelledby="como-funciona">
+<h2 id="como-funciona">Como funciona</h2>
+<div class="pagina" role="img" aria-label="Diagrama do pipeline: seis etapas em sequência, desenhadas como uma página de mangá lida da direita para a esquerda: PDF do mangá, quadros e balões, cena e roteiro, revisão, vozes, mixagem e player. A lista abaixo descreve cada uma.">
+<div class="painel p1"><span class="n">1</span>PDF do mangá</div>
+<div class="painel p2"><span class="n">2</span>Quadros e balões</div>
+<div class="painel p3 forte"><span class="n">3</span>Cena e roteiro</div>
+<div class="painel p4"><span class="n">4</span>Revisão</div>
+<div class="painel p5"><span class="n">5</span>Vozes</div>
+<div class="painel p6"><span class="n">6</span>Mixagem e player</div>
+</div>
+<ol>
+<li><strong>PDF do mangá.</strong> Uma página por vez, na ordem de leitura japonesa, da direita para a esquerda.</li>
+<li><strong>Quadros e balões.</strong> Visão computacional clássica recorta os quadros e os balões; um OCR em português lê o texto.</li>
+<li><strong>Cena e roteiro.</strong> Um modelo de visão e linguagem olha o quadro e decide quem diz cada fala e o que o narrador descreve. Roda no computador, sem chave (Qwen3-VL-8B no llama.cpp), ou pela API da Anthropic, com mais acerto. No modo híbrido, só a descrição da cena vai à API, por cerca de US$ 0,02 por página.</li>
+<li><strong>Revisão.</strong> Um revisor automático aponta fala inventada, descrição repetida e balão perdido, mas não barra: aprovou de 25 a 47,5 % dos quadros da amostra. As falas voltam ao texto dos balões.</li>
+<li><strong>Vozes.</strong> Os personagens principais têm voz própria, com a emoção da cena; os figurantes dividem poucas vozes genéricas. Todas as vozes, inclusive a do narrador, vêm de atores do corpus emoUERJ, de licença aberta; a voz do narrador humano de referência nunca foi clonada.</li>
+<li><strong>Mixagem e player.</strong> Voz, efeitos e ambiente saem em faixas separadas; os efeitos vêm depois do roteiro, escolhidos pela ação que a narração descreve, numa faixa por quantidade. O player é HTML sem dependências, testado só pelo teclado e com o axe-core.</li>
+</ol>
+</section>
+
+<img class="arte respingo" src="vitrine/respingo.webp" alt="" width="800" height="515" loading="lazy">
+<section class="quadro tom" aria-labelledby="resultados">
+<h2 id="resultados">Resultados medidos</h2>
+<p>Berserk, volume 1, páginas 8 a 32: 63 balões rotulados em 15 das 25 páginas, em que uma pessoa marcou quem fala. A mesma régua mede todas as versões. Só números agregados.</p>
+
+<h3>Seis das sete barras passam</h3>
+<p>Versão final no computador, sem chave, média de 3 execuções. Entre parênteses, a versão anterior (baseline).</p>
+<ul class="barras-spec">
+<li><span>Falas iguais ao texto do balão</span><span class="veredito"><svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 18 18"><path d="M2.5 9.5l4 4 9-9" fill="none" stroke="currentColor" stroke-width="3"/></svg>passa</span><span class="detalhe"><span class="num">100 %</span>, barra 100 % (antes <span class="num">60,3 %</span>)</span></li>
+<li class="falha"><span>Acerto de quem fala</span><span class="veredito"><svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 18 18"><path d="M3 3l12 12M15 3L3 15" fill="none" stroke="currentColor" stroke-width="3"/></svg>falha</span><span class="detalhe"><span class="num">59,8 % ± 6,4</span>, barra 80 % (antes <span class="num">55,6 %</span>)</span></li>
+<li><span>Repetição de traços já descritos</span><span class="veredito"><svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 18 18"><path d="M2.5 9.5l4 4 9-9" fill="none" stroke="currentColor" stroke-width="3"/></svg>passa</span><span class="detalhe"><span class="num">35</span> re-menções, barra até 107 (antes <span class="num">214</span>)</span></li>
+<li><span>Aprovação do revisor</span><span class="veredito"><svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 18 18"><path d="M2.5 9.5l4 4 9-9" fill="none" stroke="currentColor" stroke-width="3"/></svg>passa</span><span class="detalhe"><span class="num">20,0 %</span>, barra 12,5 % (antes <span class="num">12,5 %</span>)</span></li>
+<li><span>Nota média do revisor</span><span class="veredito"><svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 18 18"><path d="M2.5 9.5l4 4 9-9" fill="none" stroke="currentColor" stroke-width="3"/></svg>passa</span><span class="detalhe"><span class="num">0,72</span>, barra 0,58 (antes <span class="num">0,58</span>)</span></li>
+<li><span>Ritmo da fala</span><span class="veredito"><svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 18 18"><path d="M2.5 9.5l4 4 9-9" fill="none" stroke="currentColor" stroke-width="3"/></svg>passa</span><span class="detalhe"><span class="num">149,7</span> palavras por minuto, faixa de 125 a 169 (antes <span class="num">112,9</span>)</span></li>
+<li><span>Erro de reconhecimento da fala, CER do ASR (vozes XTTS)</span><span class="veredito"><svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 18 18"><path d="M2.5 9.5l4 4 9-9" fill="none" stroke="currentColor" stroke-width="3"/></svg>passa</span><span class="detalhe"><span class="num">6,0 %</span>, barra até 8 % (antes <span class="num">6,2 %</span>)</span></li>
 </ul>
 
-<h2>Por dentro</h2>
-<p>Python, com cada etapa atrás de um contrato: quadros por visão computacional clássica, OCR em português, um roteirista com modelo de visão e linguagem rodando localmente (llama.cpp), um revisor, síntese de voz e mixagem em numpy.</p>
-<p>O player é HTML e JavaScript sem dependências. Abre com dois cliques, sem servidor, e é testado com Playwright e axe-core.</p>
+<h3>Quem fala: o ponto fraco</h3>
+<p>Acerto de quem fala por roteirista, balão a balão, uma execução cada: os personagens principais pelo nome, os figurantes pelo nome ou por manterem a mesma voz. A linha tracejada marca a barra de 80 %.</p>
+<div class="mancha">
+<img class="arte respingo-fundo" src="vitrine/respingo.webp" alt="" width="800" height="515" loading="lazy">
+<ul class="grafico">
+<li><span class="rotulo"><span>Baseline, no computador</span><span class="num">55,6 %</span></span><span class="trilho" aria-hidden="true"><span style="width:55.6%"></span></span></li>
+<li><span class="rotulo"><span>Final, no computador (Qwen3-VL-8B)</span><span class="num">52,4 %</span></span><span class="trilho" aria-hidden="true"><span style="width:52.4%"></span></span></li>
+<li><span class="rotulo"><span>Final, API Claude Sonnet 5</span><span class="num">77,8 %</span></span><span class="trilho" aria-hidden="true"><span style="width:77.8%"></span></span></li>
+<li><span class="rotulo"><span>Final, API Claude Opus 4.8</span><span class="num">76,2 %</span></span><span class="trilho" aria-hidden="true"><span style="width:76.2%"></span></span></li>
+</ul>
+</div>
+<p class="aviso">Nestas execuções, anteriores à amostra do topo, nenhuma versão chega aos 80 %; na amostra, contada pela voz que se ouve, também não. No computador, o erro que sobra está nos figurantes sem nome, como um torturador ou um capanga: o modelo acerta o elenco principal e se perde no resto.</p>
+<div class="rolagem" role="region" aria-labelledby="custo-legenda" tabindex="0">
+<table>
+<caption id="custo-legenda">Computador × API, vozes XTTS</caption>
+<thead><tr><th scope="col">Medida</th><th scope="col">Computador</th><th scope="col">Sonnet 5</th><th scope="col">Opus 4.8</th></tr></thead>
+<tbody>
+<tr><th scope="row">Acerto de quem fala</th><td>52,4 %</td><td>77,8 %</td><td>76,2 %</td></tr>
+<tr><th scope="row">Re-menções de traço</th><td>45</td><td>18</td><td>16</td></tr>
+<tr><th scope="row">Nota do revisor</th><td>0,77</td><td>0,75</td><td>0,79</td></tr>
+<tr><th scope="row">CER</th><td>5,8 %</td><td>4,7 %</td><td>4,7 %</td></tr>
+<tr><th scope="row">Custo por página</th><td>US$ 0</td><td>US$ 0,08</td><td>US$ 0,12</td></tr>
+</tbody>
+</table>
+</div>
+<p>O modo no computador é o padrão, sem chave e sem custo. Com chave, a repetição cai a um terço, e o Opus acerta 79 % dos figurantes, contra 39 % nesta execução no computador. Contra a média de três execuções no computador, o Sonnet acerta 18 pontos a mais em quem fala, e o Opus 16; só a vantagem do Sonnet passa do ruído, e os dois não se separam entre si.</p>
+
+<h3>Modo híbrido: a cena pela API, o roteiro no computador</h3>
+<p>Só a descrição da cena (onde se passa, quem está presente, o que acontece) vai ao Opus. O roteiro, a revisão e a narração ficam no Qwen3-VL-8B, no computador, por cerca de US$ 0,021 por página, seis vezes menos que o Opus inteiro.</p>
+<p>Numa medição à parte, com a cópia anterior do gabarito (69 balões), três execuções híbridas acertaram <span class="num">69,6 %</span> dos balões, contra <span class="num">57,0 %</span> da média de três execuções locais e <span class="num">63,8 %</span> de uma execução do Opus inteiro. As três híbridas repetiram as mesmas cenas gravadas e acertam e erram os mesmos balões, então valem por uma: o ganho sobre o local, <span class="num">+12,6</span> pontos, tem IC 95 % de −4,2 a +27,4 e não exclui o zero.</p>
+<p>Para declarar um modo novo melhor, a regra fixada antes do teste pede, nos 220 balões das páginas 8 a 32 e 123 a 217, pelo menos <span class="num">9,4</span> pontos a mais e um IC 95 % que exclua o zero. Nas páginas 123 a 217 (157 balões rotulados por IA, três execuções de cada lado), o híbrido acertou <span class="num">53,5 %</span>, contra <span class="num">44,4 %</span> do local: <span class="num">+9,1</span> pontos, IC de +1,0 a +17,3. Nos 220 balões, a diferença é de <span class="num">+12,1</span> pontos, IC de +4,9 a +20,2. O ganho segue provisório: o braço híbrido teve uma só passada de cena do Opus em cada conjunto, e com uma só passada o desenho efetivo pede ≈ <span class="num">13,2</span> pontos; o +12,1 não chega lá. Nas páginas 8 a 32, o híbrido ainda rodou um código mais novo que o do local.</p>
+<p>As execuções do gráfico acima e as medições do modo híbrido tiveram no prompt trechos da narração humana de referência, uma leitura do mangá feita por uma pessoa, que o projeto usa em pesquisa e não publica; nas execuções com a API, esses trechos foram enviados à Anthropic.</p>
+<p>A amostra do topo foi gravada depois, com o pipeline novo (um OCR que recupera balões perdidos e o Qwen3-TTS), numa execução de cada versão. As três foram geradas sem a narração humana de referência: nenhum trecho dela entrou no que os modelos leram, e nada dela está neste site.</p>
+<p>Nela, a versão Opus acertou <span class="num">85,7 %</span> (IC 95 % de 74,0 a 95,0 %) e a híbrida <span class="num">82,5 %</span> (de 68,6 a 92,9 %); a diferença entre as duas, 3,2 pontos, cabe no ruído. A execução anterior do Opus, no gráfico acima, ficou em <span class="num">76,2 %</span>, mas com outro pipeline: vozes XTTS, o OCR antigo e trechos da referência no prompt. Pela voz que se ouve, e não pelo rótulo do roteiro, as duas caem para <span class="num">76,2 %</span> e <span class="num">74,6 %</span>, porque pares de figurantes falam com a mesma voz. Acertar o elenco e dar um rótulo por página aos figurantes, sem saber quem fala, já faria <span class="num">85,7 %</span> pelo rótulo.</p>
+<p>Um reconhecedor de fala (ASR, Whisper) ouviu o áudio da amostra: o que ele entende difere do texto dado à voz em <span class="num">1,9 %</span> dos caracteres na Opus, <span class="num">3,1 %</span> na híbrida e <span class="num">3,8 %</span> na local, quase tudo em interjeições como “Uuurgh” e “Ahh”. Os números de cada versão estão no player, junto da troca de versão.</p>
+
+<h3>Vozes: teste cego</h3>
+<p>Cinco sintetizadores leram a mesma cena. O autor deu notas de 1 a 5 sem saber qual era qual.</p>
+<div class="rolagem" role="region" aria-labelledby="vozes-legenda" tabindex="0">
+<table>
+<caption id="vozes-legenda">Notas da escuta cega, de 1 a 5</caption>
+<thead><tr><th scope="col">Sintetizador</th><th scope="col">Naturalidade</th><th scope="col">Sotaque</th><th scope="col">Emoção</th><th scope="col">Clareza</th></tr></thead>
+<tbody>
+<tr><th scope="row">Qwen3-TTS</th><td>5</td><td>5</td><td>3</td><td>5</td></tr>
+<tr><th scope="row">XTTS v2</th><td>4</td><td>4</td><td>4</td><td>3</td></tr>
+<tr><th scope="row">VoxCPM2</th><td>3</td><td>4</td><td>3</td><td>4</td></tr>
+<tr><th scope="row">Piper/Kokoro</th><td>3</td><td>3</td><td>3</td><td>4</td></tr>
+<tr><th scope="row">Chatterbox</th><td>3</td><td>2</td><td>3</td><td>5</td></tr>
+</tbody>
+</table>
+</div>
+<p>O Qwen3-TTS venceu também nas medidas: as vozes mais distintas entre si e 0,2 % de erro de reconhecimento. Virou o modo de qualidade. O XTTS segue como padrão por não exigir instalação extra.</p>
+
+<h3>O juiz automático, calibrado</h3>
+<p>Um juiz (Claude Opus) dá notas de 1 a 5 a cada quadro. Antes de confiar nele, as notas foram comparadas com uma referência em 29 quadros.</p>
+<ul>
+<li>Ele ordena os quadros na mesma direção da referência (correlação perto de 0,6).</li>
+<li>Erra a escala: é confiável em sobriedade e naturalidade, não em fidelidade e utilidade.</li>
+<li>Por isso só compara versões entre si. Nunca serve de nota absoluta nem de barra de aceite.</li>
+</ul>
+<p>A referência são notas de outro modelo, aceitas pelo autor, e não de avaliadores humanos independentes.</p>
+
+<h3>Um resultado negativo: destilação</h3>
+<p>A hipótese era que um modelo pequeno (Qwen3-VL-2B), ajustado com 138 quadros roteirizados pelo Opus, acertaria mais quem fala que o modelo local de 8B.</p>
+<p><strong>Não acertou.</strong> O aluno ficou em <span class="num">23,8 %</span>, quase igual ao próprio 2B sem ajuste (<span class="num">22,2 %</span>) e muito abaixo do 8B (<span class="num">52,4 %</span>). Aprendeu o formato, e a nota do revisor subiu de 0,14 para 0,65, mas decorou o elenco de um único arco em vez de ler a cena. O lote do professor custou US$ 8,16.</p>
+</section>
+
+<img class="arte respingo virado" src="vitrine/respingo.webp" alt="" width="800" height="515" loading="lazy">
+<section class="quadro" aria-labelledby="limites">
+<h2 id="limites">Limites</h2>
+<ul>
+<li>Na versão local desta amostra, quase metade das falas rotuladas sai com o falante errado (52,4 % de acerto; média de 3 execuções anteriores no computador: 59,8 %).</li>
+<li>A versão local quase não descreve a cena: 203 palavras de narração, com 14 das 25 páginas sem nenhuma narração. A híbrida deixa 10 páginas sem narração, e a Opus narra todas.</li>
+<li>Os figurantes dividem vozes: nas versões híbrida e Opus, três pares de figurantes falam com a mesma voz, os dois de cada par em páginas diferentes. Contado pela voz que se ouve, o acerto nos figurantes fica entre 50 e 54 %, abaixo do acaso (67,9 %). Na página 8, dois figurantes ainda falam com a mesma atriz a dois semitons: o corpus tem só duas atrizes livres para fazer os homens figurantes.</li>
+<li>A narração sai de modelos de IA e pode descrever mal um detalhe.</li>
+<li>O pipeline completo roda no computador de quem usa, mais rápido com placa de vídeo. Esta página não converte mangás: ela toca uma amostra pronta.</li>
+<li>O player ainda não passou por uma sessão com pessoas cegas. Os testes automáticos cobrem o uso só pelo teclado e as regras de acessibilidade do axe.</li>
+<li>No iPhone e no iPad, os volumes separados não têm efeito: o Safari do iOS ignora o volume de cada áudio.</li>
+<li>Os números vêm de 25 páginas de um volume e de poucas execuções. Com uma execução de cada lado, só diferenças acima de uns 32 pontos por balão são detectadas com segurança.</li>
+</ul>
 <!-- vitrine: quando o repositório for público, troque o parágrafo abaixo pelo link dele -->
 <p>O código ainda não é público; o link para o repositório entra aqui quando for.</p>
+</section>
 </main>
 <footer>
+<img class="arte marca" src="vitrine/logo.svg" alt="" width="56" height="55">
 <h2>Créditos</h2>
 <ul>
-<li>Pepper&amp;Carrot, <a href="https://www.davidrevoy.com">David Revoy</a>, <a href="https://creativecommons.org/licenses/by/4.0/deed.pt-br">CC-BY 4.0</a>, <a href="https://www.peppercarrot.com">www.peppercarrot.com</a>; tradução pt-BR: Frederico Batista e Alexandre E. Almeida; áudio derivado gerado pelo MangaWhisperer</li>
+<li>Berserk © Kentaro Miura / Hakusensha; edição brasileira Panini. Uso não comercial para pesquisa e portfólio de acessibilidade; narração gerada pelo MangaWhisperer.</li>
+<li>Pedidos de remoção: mauhnoomyeonatan11@gmail.com</li>
 <li>código do MangaWhisperer: todos os direitos reservados (protótipo de portfólio)</li>
+<li>Efeitos sonoros: Horror Sound Effects Library, de Little Robot Sound Factory (www.littlerobotsoundfactory.com), licença CC BY 3.0 (<a href="https://creativecommons.org/licenses/by/3.0/">https://creativecommons.org/licenses/by/3.0/</a>), recortado e nivelado; demais efeitos CC0 (OpenGameArt, Kenney).</li>
+<li>Vozes: clonadas a partir de trechos do <a href="https://doi.org/10.5281/zenodo.5427549">emoUERJ</a>, de Bastos Germano, R. G.; Pompeu Tcheou, M.; da Rocha Henriques, F.; Pinto Gomes Junior, S. (2021), doi:10.5281/zenodo.5427549, licença CC BY 4.0 (<a href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a>); trechos recortados, juntados e reamostrados, usados como referência de clonagem de voz.</li>
 </ul>
 </footer>
 </body>

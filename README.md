@@ -1,13 +1,11 @@
-# MangaWhisperer — vitrine
+# Vitrine do MangaWhisperer
 
-Amostra pública do MangaWhisperer, um protótipo que transforma quadrinhos em PDF num audiodrama
-multi-voz em português do Brasil, pensado para pessoas cegas ou com baixa visão. A página tem um
-player acessível: dá para usá-lo só pelo teclado ou com leitor de tela, e o volume de voz, música
-e efeitos é ajustável separadamente.
+Amostra pública do MangaWhisperer, um protótipo que transforma mangá em PDF num audiodrama em português do Brasil, pensado para leitores cegos e com baixa visão.
 
-**Obra:** Pepper&Carrot, episódio 6 "O Torneio de Poções", de David Revoy, licença
-[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/), [www.peppercarrot.com](https://www.peppercarrot.com).
-Tradução pt-BR de Frederico Batista e Alexandre E. Almeida. O áudio derivado foi gerado pelo
-MangaWhisperer e é distribuído sob a mesma licença CC-BY 4.0.
+- Trecho: Berserk, volume 1, páginas 8 a 32, © Kentaro Miura / Hakusensha, edição brasileira Panini. Uso não comercial, para pesquisa e portfólio de acessibilidade.
+- Três versões do mesmo trecho, com as mesmas vozes: Opus (API Claude), Híbrido (cena pelo Opus, roteiro local) e Local (Qwen3-VL-8B).
+- O áudio foi gerado sem a narração humana de referência.
+- Créditos das vozes (emoUERJ, CC BY 4.0) e dos efeitos (Little Robot Sound Factory, CC BY 3.0, e pacotes CC0) estão no rodapé de cada página.
+- Pedidos de remoção: mauhnoomyeonatan11@gmail.com
 
-O código do MangaWhisperer tem todos os direitos reservados (protótipo de portfólio) e não está neste repositório.
+O código do MangaWhisperer não está neste repositório: todos os direitos reservados (protótipo de portfólio).

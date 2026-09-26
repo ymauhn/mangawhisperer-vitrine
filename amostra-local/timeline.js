@@ -1,0 +1,997 @@
+window.TIMELINE = {
+  "title": "Berserk, volume 1 (trecho) · Local (Qwen3-VL-8B, sem custo)",
+  "duration_ms": 301980,
+  "stems": {
+    "voice": "stems/voice.mp3",
+    "ambience": "stems/ambience.mp3",
+    "sfx_1": "stems/sfx_1.mp3",
+    "sfx_2": "stems/sfx_2.mp3",
+    "sfx_3": "stems/sfx_3.mp3"
+  },
+  "segments": [
+    {
+      "index": 0,
+      "kind": "dialogue",
+      "speaker": "Aldeã",
+      "page": 8,
+      "panel": 0,
+      "text": "ISSO!",
+      "start_ms": 0,
+      "end_ms": 780
+    },
+    {
+      "index": 1,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 8,
+      "panel": 0,
+      "text": "Siiim!",
+      "start_ms": 780,
+      "end_ms": 1700
+    },
+    {
+      "index": 2,
+      "kind": "narration",
+      "speaker": "Narrator",
+      "page": 8,
+      "panel": 0,
+      "text": "Guts ataca com força, e a criatura grita em dor.",
+      "start_ms": 1700,
+      "end_ms": 5580
+    },
+    {
+      "index": 3,
+      "kind": "narration",
+      "speaker": "Narrator",
+      "page": 8,
+      "panel": 0,
+      "text": "Uma mulher assiste, gritando de pavor.",
+      "start_ms": 5580,
+      "end_ms": 8380
+    },
+    {
+      "index": 4,
+      "kind": "narration",
+      "speaker": "Narrator",
+      "page": 9,
+      "panel": 0,
+      "text": "Guts ataca a criatura com seu braço mecânico, enquanto ela grita em dor.",
+      "start_ms": 8380,
+      "end_ms": 13100
+    },
+    {
+      "index": 5,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 10,
+      "panel": 0,
+      "text": "AGORA EU TE PEGUEI, GAROTO!",
+      "start_ms": 13550,
+      "end_ms": 16750
+    },
+    {
+      "index": 6,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 10,
+      "panel": 0,
+      "text": "PARECE QUE EU QUE TE PEGUEI",
+      "start_ms": 16750,
+      "end_ms": 17950
+    },
+    {
+      "index": 7,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 10,
+      "panel": 0,
+      "text": "VOCÊ VAI PARA INFERNO DEPOIS DE TER PROVADO O PARAÍSO.",
+      "start_ms": 17950,
+      "end_ms": 22410
+    },
+    {
+      "index": 8,
+      "kind": "narration",
+      "speaker": "Narrator",
+      "page": 10,
+      "panel": 0,
+      "text": "A criatura grita em dor enquanto Guts a ataca.",
+      "start_ms": 22410,
+      "end_ms": 25670
+    },
+    {
+      "index": 9,
+      "kind": "narration",
+      "speaker": "Narrator",
+      "page": 11,
+      "panel": 0,
+      "text": "Guts ergue o machado, golpeando com força.",
+      "start_ms": 25670,
+      "end_ms": 28630
+    },
+    {
+      "index": 10,
+      "kind": "narration",
+      "speaker": "Narrator",
+      "page": 11,
+      "panel": 0,
+      "text": "A criatura grita em dor, seus dentes afiados brilhando na luz da lua.",
+      "start_ms": 29080,
+      "end_ms": 33700
+    },
+    {
+      "index": 11,
+      "kind": "narration",
+      "speaker": "Narrator",
+      "page": 12,
+      "panel": 0,
+      "text": "Guts golpeia a criatura com seu machado, enquanto ela grita em dor.",
+      "start_ms": 34150,
+      "end_ms": 38450
+    },
+    {
+      "index": 12,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 13,
+      "panel": 0,
+      "text": "MERDA",
+      "start_ms": 38900,
+      "end_ms": 39800
+    },
+    {
+      "index": 13,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 13,
+      "panel": 0,
+      "text": "MUITO RUIM! VOCÊ ERROU",
+      "start_ms": 40300,
+      "end_ms": 43000
+    },
+    {
+      "index": 14,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 14,
+      "panel": 0,
+      "text": "PARE DE SE MECHER COMO VOU ACERTAR DESSE JEITO?",
+      "start_ms": 43500,
+      "end_ms": 46860
+    },
+    {
+      "index": 15,
+      "kind": "dialogue",
+      "speaker": "Soldado",
+      "page": 14,
+      "panel": 0,
+      "text": "NEM O PREFEITO SE OPÕE CONTRA OS HOMENS DO CASTELO DE KOKA. É MELHOR NÓS NÃO NOS ENVOLVERMOS",
+      "start_ms": 46860,
+      "end_ms": 53860
+    },
+    {
+      "index": 16,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 14,
+      "panel": 0,
+      "text": "SINTO MUITO POR AQUELE ELFO.",
+      "start_ms": 53860,
+      "end_ms": 56200
+    },
+    {
+      "index": 17,
+      "kind": "dialogue",
+      "speaker": "Desconhecido",
+      "page": 14,
+      "panel": 0,
+      "text": "NÃO HÁ NADA QUE POSSAMOS FAZER",
+      "start_ms": 56200,
+      "end_ms": 58640
+    },
+    {
+      "index": 18,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 15,
+      "panel": 0,
+      "text": "VOU BAGUNÇAR UM POUCO ESTE LUGAR",
+      "start_ms": 58640,
+      "end_ms": 62020
+    },
+    {
+      "index": 19,
+      "kind": "dialogue",
+      "speaker": "Desconhecido",
+      "page": 15,
+      "panel": 0,
+      "text": "QUE?",
+      "start_ms": 62020,
+      "end_ms": 62400
+    },
+    {
+      "index": 20,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 15,
+      "panel": 1,
+      "text": "SEUS SAFADOS",
+      "start_ms": 62400,
+      "end_ms": 63740
+    },
+    {
+      "index": 21,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 15,
+      "panel": 1,
+      "text": "ME DESAMARRE",
+      "start_ms": 63740,
+      "end_ms": 65020
+    },
+    {
+      "index": 22,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 15,
+      "panel": 1,
+      "text": "VOU CALAR ESSA SUA BOCA AGORA NÃO VAI SE MECHER.",
+      "start_ms": 65020,
+      "end_ms": 69500
+    },
+    {
+      "index": 23,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 15,
+      "panel": 1,
+      "text": "O QUE você VAI FAZER SE EU MESMO ME DESAMARAR?",
+      "start_ms": 69500,
+      "end_ms": 74140
+    },
+    {
+      "index": 24,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 15,
+      "panel": 1,
+      "text": "AH!",
+      "start_ms": 74140,
+      "end_ms": 74740
+    },
+    {
+      "index": 25,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 15,
+      "panel": 1,
+      "text": "NÃO! NÃO! NÃO! NÃO'",
+      "start_ms": 74740,
+      "end_ms": 76980
+    },
+    {
+      "index": 26,
+      "kind": "dialogue",
+      "speaker": "Theresia",
+      "page": 16,
+      "panel": 0,
+      "text": "QUE?",
+      "start_ms": 76980,
+      "end_ms": 77460
+    },
+    {
+      "index": 27,
+      "kind": "dialogue",
+      "speaker": "Desconhecido",
+      "page": 16,
+      "panel": 0,
+      "text": "EE JEGOR!",
+      "start_ms": 77760,
+      "end_ms": 79300
+    },
+    {
+      "index": 28,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 16,
+      "panel": 0,
+      "text": "QUEM FOI O FILHO DA PUTA?",
+      "start_ms": 79600,
+      "end_ms": 81840
+    },
+    {
+      "index": 29,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 17,
+      "panel": 0,
+      "text": "AH!",
+      "start_ms": 82140,
+      "end_ms": 82740
+    },
+    {
+      "index": 30,
+      "kind": "narration",
+      "speaker": "Narrator",
+      "page": 18,
+      "panel": 0,
+      "text": "Guts está em pé, segurando uma arma de arco e flecha, olhando para baixo.",
+      "start_ms": 83190,
+      "end_ms": 88390
+    },
+    {
+      "index": 31,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 19,
+      "panel": 0,
+      "text": "...",
+      "start_ms": 88840,
+      "end_ms": 89290
+    },
+    {
+      "index": 32,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 19,
+      "panel": 1,
+      "text": "Uhh",
+      "start_ms": 89740,
+      "end_ms": 90160
+    },
+    {
+      "index": 33,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 19,
+      "panel": 2,
+      "text": "AH.",
+      "start_ms": 90610,
+      "end_ms": 92610
+    },
+    {
+      "index": 34,
+      "kind": "dialogue",
+      "speaker": "Puck",
+      "page": 20,
+      "panel": 0,
+      "text": "ISSO DEVE DOER",
+      "start_ms": 93110,
+      "end_ms": 94850
+    },
+    {
+      "index": 35,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 20,
+      "panel": 0,
+      "text": "ISSO DEVE DOER VOCÊ É UM LADRÃO DO CASTELO DE KOKA, CERTO?",
+      "start_ms": 95300,
+      "end_ms": 99600
+    },
+    {
+      "index": 36,
+      "kind": "dialogue",
+      "speaker": "Desconhecido",
+      "page": 20,
+      "panel": 0,
+      "text": "uuughhk , uuughhk",
+      "start_ms": 100050,
+      "end_ms": 101490
+    },
+    {
+      "index": 37,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 20,
+      "panel": 1,
+      "text": "ME RESPONDA",
+      "start_ms": 101940,
+      "end_ms": 103120
+    },
+    {
+      "index": 38,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 20,
+      "panel": 2,
+      "text": "ISS. ISSO MESMO",
+      "start_ms": 103570,
+      "end_ms": 105770
+    },
+    {
+      "index": 39,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 20,
+      "panel": 3,
+      "text": "BEM, AGORA VOCÊ FARIA A GENTILEZA DE ENVIAR UMA MENSAGEM PARA SEU MESTRE POR MIM?",
+      "start_ms": 106220,
+      "end_ms": 111440
+    },
+    {
+      "index": 40,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 20,
+      "panel": 3,
+      "text": "QUA. QU. QUAL SERIA?",
+      "start_ms": 111890,
+      "end_ms": 114850
+    },
+    {
+      "index": 41,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 21,
+      "panel": 0,
+      "text": "Diga a ele que o espadachim negro chegou.",
+      "start_ms": 115300,
+      "end_ms": 117380
+    },
+    {
+      "index": 42,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 21,
+      "panel": 0,
+      "text": "É só isso",
+      "start_ms": 117830,
+      "end_ms": 118630
+    },
+    {
+      "index": 43,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 21,
+      "panel": 0,
+      "text": "Atrás de você!",
+      "start_ms": 119080,
+      "end_ms": 120660
+    },
+    {
+      "index": 44,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 21,
+      "panel": 1,
+      "text": "ESPADACHIM NEGRO.",
+      "start_ms": 121110,
+      "end_ms": 124150
+    },
+    {
+      "index": 45,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 22,
+      "panel": 0,
+      "text": "Eh?",
+      "start_ms": 124600,
+      "end_ms": 125340
+    },
+    {
+      "index": 46,
+      "kind": "narration",
+      "speaker": "Narrator",
+      "page": 22,
+      "panel": 1,
+      "text": "Guts avança com o arco e flecha em punho, corpo inclinado para o ataque.",
+      "start_ms": 125340,
+      "end_ms": 130360
+    },
+    {
+      "index": 47,
+      "kind": "narration",
+      "speaker": "Narrator",
+      "page": 23,
+      "panel": 0,
+      "text": "AQUELA COISA ERA MUITO GRANDE PARA SER CHAMADA DE ESPADA",
+      "start_ms": 130360,
+      "end_ms": 133660
+    },
+    {
+      "index": 48,
+      "kind": "narration",
+      "speaker": "Narrator",
+      "page": 24,
+      "panel": 0,
+      "text": "Guts mantém a arma de arco e flecha em posição de ataque, enquanto a criatura, nua e com asas de fada, avança rapidamente em sua direção.",
+      "start_ms": 134110,
+      "end_ms": 143310
+    },
+    {
+      "index": 49,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 24,
+      "panel": 1,
+      "text": "NÃO ME DECEPCIONE",
+      "start_ms": 143760,
+      "end_ms": 145520
+    },
+    {
+      "index": 50,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 24,
+      "panel": 1,
+      "text": "EI EII ESPERE",
+      "start_ms": 145520,
+      "end_ms": 148020
+    },
+    {
+      "index": 51,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 24,
+      "panel": 1,
+      "text": "ESPERA SEU IMBECIL!",
+      "start_ms": 148020,
+      "end_ms": 150440
+    },
+    {
+      "index": 52,
+      "kind": "dialogue",
+      "speaker": "Criatura",
+      "page": 24,
+      "panel": 2,
+      "text": "AHHHH DROGA!",
+      "start_ms": 150440,
+      "end_ms": 151720
+    },
+    {
+      "index": 53,
+      "kind": "dialogue",
+      "speaker": "Puck",
+      "page": 25,
+      "panel": 0,
+      "text": "EI! EU DISSE PARA ESPERAR!",
+      "start_ms": 151720,
+      "end_ms": 154040
+    },
+    {
+      "index": 54,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 25,
+      "panel": 0,
+      "text": "SE VOCÊ É SALVO POR ALGUÉM",
+      "start_ms": 154040,
+      "end_ms": 155780
+    },
+    {
+      "index": 55,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 25,
+      "panel": 0,
+      "text": "VOCÊ DEVE SEGUI-LO ATÉ O FIM ESPERE!",
+      "start_ms": 155780,
+      "end_ms": 158500
+    },
+    {
+      "index": 56,
+      "kind": "dialogue",
+      "speaker": "Puck",
+      "page": 25,
+      "panel": 0,
+      "text": "A PROPÓSITO ESSA ESPADA É INCRÍVEL QUANTO SERÁ QUE ELA PESA?",
+      "start_ms": 158500,
+      "end_ms": 162220
+    },
+    {
+      "index": 57,
+      "kind": "dialogue",
+      "speaker": "Puck",
+      "page": 25,
+      "panel": 0,
+      "text": "AHH!",
+      "start_ms": 162220,
+      "end_ms": 163960
+    },
+    {
+      "index": 58,
+      "kind": "dialogue",
+      "speaker": "Puck",
+      "page": 25,
+      "panel": 0,
+      "text": "O MEU NOME É PUCK.. PRAZER",
+      "start_ms": 163960,
+      "end_ms": 167400
+    },
+    {
+      "index": 59,
+      "kind": "dialogue",
+      "speaker": "Puck",
+      "page": 25,
+      "panel": 0,
+      "text": "EU ESTAVA VIAJANDO COM OS MEUS COMPANHEIROS QUANDO AQUELES LADRÕES NOS ATACARAM ENTÃO ELES ME MANTERAM NUMA GAIOLA DEPOIS NUMA GARRAFA DE VINHO. É UM MILAGRE EU ESTAR VIVO!",
+      "start_ms": 167400,
+      "end_ms": 177220
+    },
+    {
+      "index": 60,
+      "kind": "dialogue",
+      "speaker": "Puck",
+      "page": 26,
+      "panel": 0,
+      "text": "OUVI DIZER QUE ESSA CIDADE FOI ATACADA UMA PORÇÃO DE VEZES, MAS AGORA O PREFEITO FEZ UM ACORDO.",
+      "start_ms": 177220,
+      "end_ms": 183860
+    },
+    {
+      "index": 61,
+      "kind": "dialogue",
+      "speaker": "Puck",
+      "page": 26,
+      "panel": 0,
+      "text": "MAS AGORA PARECE QUE ELES VÃO SER ATACADOS DE QUALQUER FORMA",
+      "start_ms": 184310,
+      "end_ms": 188850
+    },
+    {
+      "index": 62,
+      "kind": "dialogue",
+      "speaker": "Puck",
+      "page": 26,
+      "panel": 0,
+      "text": "EM TROCA DA LIBERDADE DAS PESSOAS, ELAS NÃO SERIAM MAIS ATACADAS.",
+      "start_ms": 189300,
+      "end_ms": 194900
+    },
+    {
+      "index": 63,
+      "kind": "dialogue",
+      "speaker": "Puck",
+      "page": 26,
+      "panel": 0,
+      "text": "'SERIA UMA BOA IDEIA VOCÊ DAR O FORA DAQUI",
+      "start_ms": 195350,
+      "end_ms": 199050
+    },
+    {
+      "index": 64,
+      "kind": "dialogue",
+      "speaker": "Puck",
+      "page": 26,
+      "panel": 0,
+      "text": "SE MAIS DAQUELES IDIOTAS TE ACHAREM ELES VÃO TE FAZER EM PEDACICHOS.",
+      "start_ms": 199500,
+      "end_ms": 204040
+    },
+    {
+      "index": 65,
+      "kind": "dialogue",
+      "speaker": "Puck",
+      "page": 26,
+      "panel": 0,
+      "text": "ELES NÃO SÃO APENAS LADRÕES.",
+      "start_ms": 204540,
+      "end_ms": 207420
+    },
+    {
+      "index": 66,
+      "kind": "dialogue",
+      "speaker": "Puck",
+      "page": 26,
+      "panel": 0,
+      "text": "ELES SÃO SOLDADOS DESSA REGIÃO.",
+      "start_ms": 207870,
+      "end_ms": 210930
+    },
+    {
+      "index": 67,
+      "kind": "dialogue",
+      "speaker": "Puck",
+      "page": 26,
+      "panel": 0,
+      "text": "AH",
+      "start_ms": 211380,
+      "end_ms": 211960
+    },
+    {
+      "index": 68,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 26,
+      "panel": 0,
+      "text": "OHN AI! PORQUE VOCÊ FEZ ISSO?",
+      "start_ms": 212260,
+      "end_ms": 215440
+    },
+    {
+      "index": 69,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 27,
+      "panel": 0,
+      "text": "NÃO TOQUE EM MIM",
+      "start_ms": 215440,
+      "end_ms": 216800
+    },
+    {
+      "index": 70,
+      "kind": "dialogue",
+      "speaker": "Puck",
+      "page": 27,
+      "panel": 0,
+      "text": "QUAL O SEU PROBLEMA!!! ISSO É ATITUDE QUE DEVE-SE TOMAR?!",
+      "start_ms": 216800,
+      "end_ms": 220940
+    },
+    {
+      "index": 71,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 27,
+      "panel": 0,
+      "text": "EU VOU TE ESMAGAR",
+      "start_ms": 220940,
+      "end_ms": 222520
+    },
+    {
+      "index": 72,
+      "kind": "dialogue",
+      "speaker": "Puck",
+      "page": 27,
+      "panel": 0,
+      "text": "OLHA ISSO",
+      "start_ms": 222520,
+      "end_ms": 223380
+    },
+    {
+      "index": 73,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 28,
+      "panel": 0,
+      "text": "Bom tô indo nessa.",
+      "start_ms": 223380,
+      "end_ms": 225040
+    },
+    {
+      "index": 74,
+      "kind": "narration",
+      "speaker": "Narrator",
+      "page": 29,
+      "panel": 0,
+      "text": "Guts está em posição de combate, com a arma levantada, cabeça inclinada para baixo.",
+      "start_ms": 225040,
+      "end_ms": 231080
+    },
+    {
+      "index": 75,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 30,
+      "panel": 0,
+      "text": "TU É UM CARINHA MUITO TEIMOSO MESMO!",
+      "start_ms": 231530,
+      "end_ms": 234270
+    },
+    {
+      "index": 76,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 30,
+      "panel": 0,
+      "text": "PODIA PELO MENOS FAZER UM RUÍDO? QUE TAL? Huh?",
+      "start_ms": 234720,
+      "end_ms": 239440
+    },
+    {
+      "index": 77,
+      "kind": "dialogue",
+      "speaker": "Desconhecido",
+      "page": 30,
+      "panel": 0,
+      "text": "SEU",
+      "start_ms": 239890,
+      "end_ms": 240470
+    },
+    {
+      "index": 78,
+      "kind": "dialogue",
+      "speaker": "Desconhecido",
+      "page": 30,
+      "panel": 0,
+      "text": "SEU MERDA!",
+      "start_ms": 240920,
+      "end_ms": 241880
+    },
+    {
+      "index": 79,
+      "kind": "dialogue",
+      "speaker": "Desconhecido",
+      "page": 30,
+      "panel": 0,
+      "text": "PARE!",
+      "start_ms": 242330,
+      "end_ms": 242830
+    },
+    {
+      "index": 80,
+      "kind": "dialogue",
+      "speaker": "Prefeito",
+      "page": 31,
+      "panel": 0,
+      "text": "JÁ CHEGA!",
+      "start_ms": 243280,
+      "end_ms": 244400
+    },
+    {
+      "index": 81,
+      "kind": "dialogue",
+      "speaker": "Homem calvo",
+      "page": 31,
+      "panel": 1,
+      "text": "MAS SENHOR PREFEITO",
+      "start_ms": 244400,
+      "end_ms": 246240
+    },
+    {
+      "index": 82,
+      "kind": "narration",
+      "speaker": "Narrator",
+      "page": 31,
+      "panel": 2,
+      "text": "O prefeito olha para Guts com expressão séria.",
+      "start_ms": 246240,
+      "end_ms": 249120
+    },
+    {
+      "index": 83,
+      "kind": "dialogue",
+      "speaker": "Prefeito",
+      "page": 31,
+      "panel": 3,
+      "text": "TODAS ESSAS ARMAS PERTENCEM À ESTE HOMEM?",
+      "start_ms": 249120,
+      "end_ms": 252460
+    },
+    {
+      "index": 84,
+      "kind": "dialogue",
+      "speaker": "Homem calvo",
+      "page": 31,
+      "panel": 3,
+      "text": "SIM TALVEZ ELE ESTEJA PLANEJANDO COMEÇAR UMA GUERRA POR ELE MESMO?",
+      "start_ms": 252460,
+      "end_ms": 258200
+    },
+    {
+      "index": 85,
+      "kind": "dialogue",
+      "speaker": "Prefeito",
+      "page": 31,
+      "panel": 3,
+      "text": "VOCÊ É UM MERCENÁRIO?",
+      "start_ms": 258200,
+      "end_ms": 260960
+    },
+    {
+      "index": 86,
+      "kind": "narration",
+      "speaker": "Narrator",
+      "page": 31,
+      "panel": 3,
+      "text": "Guts está em pé, com os braços erguidos, olhando para baixo, enquanto o prefeito e o homem calvo gritam e se agitam ao seu redor.",
+      "start_ms": 260960,
+      "end_ms": 269840
+    },
+    {
+      "index": 87,
+      "kind": "narration",
+      "speaker": "Narrator",
+      "page": 31,
+      "panel": 3,
+      "text": "O forno de metal está cheio de ferramentas e utensílios espalhados, com luzes que iluminam as armas e os rostos dos personagens.",
+      "start_ms": 269840,
+      "end_ms": 277900
+    },
+    {
+      "index": 88,
+      "kind": "dialogue",
+      "speaker": "Prefeito",
+      "page": 32,
+      "panel": 0,
+      "text": "FORASTEIRO VOCÊ NÃO SABE O QUE ACABOU DE FAZER.",
+      "start_ms": 277900,
+      "end_ms": 282240
+    },
+    {
+      "index": 89,
+      "kind": "dialogue",
+      "speaker": "Homem calvo",
+      "page": 32,
+      "panel": 0,
+      "text": "POR TER MATADO AQUELES HOMENS.",
+      "start_ms": 282240,
+      "end_ms": 285600
+    },
+    {
+      "index": 90,
+      "kind": "dialogue",
+      "speaker": "Homem calvo",
+      "page": 32,
+      "panel": 0,
+      "text": "ESSA CIDADE VAI SER PRATICA-MENTE DESTRUÍDA!",
+      "start_ms": 285600,
+      "end_ms": 289280
+    },
+    {
+      "index": 91,
+      "kind": "dialogue",
+      "speaker": "Guts",
+      "page": 32,
+      "panel": 1,
+      "text": "ESSES SEUS SOLDADOS SÃO TÃO INÚTEIS ASSIM?",
+      "start_ms": 289280,
+      "end_ms": 294640
+    },
+    {
+      "index": 92,
+      "kind": "dialogue",
+      "speaker": "Prefeito",
+      "page": 32,
+      "panel": 2,
+      "text": "O QUE VOCÊ DISSEIG",
+      "start_ms": 294640,
+      "end_ms": 296140
+    },
+    {
+      "index": 93,
+      "kind": "dialogue",
+      "speaker": "Homem calvo",
+      "page": 32,
+      "panel": 2,
+      "text": "ALTO!",
+      "start_ms": 296140,
+      "end_ms": 296820
+    },
+    {
+      "index": 94,
+      "kind": "dialogue",
+      "speaker": "Prefeito",
+      "page": 32,
+      "panel": 2,
+      "text": "VOCÊ NÃO SABE. COMO É TERRÍVEL O MESTRE DESSES HOMENS.",
+      "start_ms": 296820,
+      "end_ms": 301980
+    }
+  ],
+  "cues": [
+    {
+      "tag": "grito",
+      "level": 1,
+      "p": 1.0,
+      "page": 8,
+      "start_ms": 1700,
+      "end_ms": 2520
+    },
+    {
+      "tag": "espada",
+      "level": 1,
+      "p": 1.0,
+      "page": 12,
+      "start_ms": 34150,
+      "end_ms": 35350
+    },
+    {
+      "tag": "corte",
+      "level": 2,
+      "p": 0.717,
+      "page": 22,
+      "start_ms": 125340,
+      "end_ms": 126179
+    },
+    {
+      "tag": "impacto",
+      "level": 3,
+      "p": 0.482,
+      "page": 31,
+      "start_ms": 269840,
+      "end_ms": 271040
+    }
+  ]
+};
